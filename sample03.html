@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p v-bind:class="error_class">
+            エラーです。
+        </p>
+        <img v-bind:src="img_src" alt="" key="image">
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    error: true,
+                    img_src: 'https://vuejs.org/images/logo.png'
+                }
+            },
+            computed: {
+                error_class() {
+                    return this.error ? 'error' : ''
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
