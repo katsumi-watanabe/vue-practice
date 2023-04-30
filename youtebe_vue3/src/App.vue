@@ -1,47 +1,21 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from 'vue';
+// vueからcomputedをインポート
+
+// const answer = computed(() => {
+//   return 123 + 112
+// })
+
+const message = computed(() =>  {
+  return 'Hello <strong>' + myname.value + ' </strong> 3'
+})
+const welcomeColor = ref('blue')
+const myname = ref('')
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <h1>Vue 3</h1>
+  <p>お名前は？:  <input type="text" size="30" v-model="myname"></p>
+  <p v-html="message" :style="{ backgroundColor: welcomeColor, color: 'white' }"></p>
+  <!-- <p v-html="myname" :style="{ backgroundColor: welcomeColor, color: 'white' }"></p> -->
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
