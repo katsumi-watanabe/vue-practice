@@ -1,30 +1,36 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<script type="module">
+import { onMounted, ref } from 'vue'
+import Account from './components/Account.vue'
+import Auth from './components/Auth.vue'
+import { createClient } from '@supabase/supabase-js'
+
+const session = ref()
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+
+onMounted(() => {
+  supabase.auth.getSession().then(({ user }) => {
+    session.value = user
+  })
+
+  supabase.auth.onAuthStateChange((_event, _session) => {
+    session.value = _session?.user
+  })
+})
+
+export default {
+  components: {
+    Account,
+    Auth
+  },
+  setup() {
+    return { session }
+  }
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="container" style="padding: 50px 0 100px 0">
+    <Account v-if="session" :session="session.value" />
+    <Auth v-else />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
