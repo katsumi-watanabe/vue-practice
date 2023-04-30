@@ -1,21 +1,15 @@
 <script setup>
-import { ref, computed } from 'vue';
-// vueからcomputedをインポート
+import { ref } from 'vue'
 
-// const answer = computed(() => {
-//   return 123 + 112
-// })
+const number = ref(0)
 
-const message = computed(() =>  {
-  return 'Hello <strong>' + myname.value + ' </strong> 3'
-})
-const welcomeColor = ref('blue')
-const myname = ref('')
+const add = () => {
+  number.value++
+}
 </script>
 
+
 <template>
-  <h1>Vue 3</h1>
-  <p>お名前は？:  <input type="text" size="30" v-model="myname"></p>
-  <p v-html="message" :style="{ backgroundColor: welcomeColor, color: 'white' }"></p>
-  <!-- <p v-html="myname" :style="{ backgroundColor: welcomeColor, color: 'white' }"></p> -->
+  <input type="text" size="30" v-model="number">
+  <button @click="add()">+1</button>
 </template>
