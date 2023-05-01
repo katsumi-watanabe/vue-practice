@@ -1,36 +1,25 @@
-<script type="module">
-import { onMounted, ref } from 'vue'
-import Account from './components/Account.vue'
-import Auth from './components/Auth.vue'
-import { createClient } from '@supabase/supabase-js'
+<script setup>
+import { ref } from 'vue';
+import { supabase } from './supabase';
 
-const session = ref()
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+const tasks = ref([]);
 
-onMounted(() => {
-  supabase.auth.getSession().then(({ user }) => {
-    session.value = user
-  })
+const getTasks = async () => {
+  let { data: supabase_practices, error } = await supabase
+  .from('supabase_practices')
+  .select('*')
 
-  supabase.auth.onAuthStateChange((_event, _session) => {
-    session.value = _session?.user
-  })
-})
+  tasks.value = supabase_practices;
+};
 
-export default {
-  components: {
-    Account,
-    Auth
-  },
-  setup() {
-    return { session }
-  }
-}
+getTasks();
 </script>
 
 <template>
-  <div class="container" style="padding: 50px 0 100px 0">
-    <Account v-if="session" :session="session.value" />
-    <Auth v-else />
+  <div>
+    <h1>Vue3でsupabase</h1>
+    <ul>
+      <li v-for="task in tasks" :key="task.id">{{ task.text }}</li>
+    </ul>
   </div>
 </template>
