@@ -17,7 +17,7 @@ getTasks();
 
 <template>
   <div>
-    <h1>Vue3でsupabase</h1>
+    <h1>Vue3でsupabase_about-page</h1>
     <ul>
       <li v-for="task in tasks" :key="task.id">{{ task.text }}</li>
     </ul>
