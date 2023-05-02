@@ -1,6 +1,6 @@
-<script setup>
+<!-- <script setup>
 import { ref } from 'vue';
-import { supabase } from './supabase';
+import { supabase } from '../supabase';
 
 const tasks = ref([]);
 
@@ -25,4 +25,7 @@ getTasks();
   <a href="/about">About</a> |
   <a href="/non-existent-path">Broken Link</a>
   </div>
+</template> -->
+<template>
+  <h1>About</h1>
 </template>
