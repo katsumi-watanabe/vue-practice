@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue'
 import { supabase } from './supabase';
-
 import Home from './App.vue'
 import About from './views/About.vue'
 // import NotFound from './NotFound.vue'
@@ -17,12 +16,11 @@ window.addEventListener('hashchange', () => {
   currentPath.value = window.location.hash
 })
 
-// const currentView = computed(() => {
-//   return routes[currentPath.value.slice(1) || '/'] || NotFound
-// })
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound
+})
 
 const tasks = ref([]);
-
 const getTasks = async () => {
   let { data: supabase_practices, error } = await supabase
   .from('supabase_practices')
@@ -40,9 +38,8 @@ getTasks();
     <ul>
       <li v-for="task in tasks" :key="task.id">{{ task.text }}</li>
     </ul>
-    <!-- <a href="/">Home</a> | -->
-  <a href="/about">About</a> |
-  <!-- <a href="/non-existent-path">Broken Link</a> -->
-  <component :is="currentView" />
+    <a href="/">Home</a> |
+    <a href="/about">About</a> |
+    <component :is="currentView" />
   </div>
 </template>
