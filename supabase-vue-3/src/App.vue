@@ -2,11 +2,13 @@
 import { ref, computed } from 'vue'
 import Home from './Home.vue'
 import About from './About.vue'
+import Form from './Form.vue'
 import NotFound from './NotFound.vue'
 
 const routes = {
   '/': Home,
-  '/about': About
+  '/about': About,
+  '/form': Form
 }
 
 const currentPath = ref(window.location.hash)
@@ -23,6 +25,7 @@ const currentView = computed(() => {
 <template>
   <a href="#/">Home</a> |
   <a href="#/about">About</a> |
+  <a href="#/form">Form</a> |
   <a href="#/non-existent-path">Broken Link</a>
   <component :is="currentView" />
 </template>

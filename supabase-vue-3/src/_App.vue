@@ -41,8 +41,9 @@ onMounted(() => {
     <ul>
       <li v-for="task in tasks" :key="task.id">{{ task.text }}</li>
     </ul>
-    <a href="/">Home</a> |
-    <a href="/about">About</a> |
+    <a href="#/">Home</a> |
+    <a href="#/about">About</a> |
+    <a href="#/non-existent-path">Broken Link</a>
     <component :is="currentView" />
   </div>
 </template>
