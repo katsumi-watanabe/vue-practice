@@ -1,14 +1,14 @@
-<script setup>
+<!-- <script setup>
 import { ref, computed } from 'vue'
 import Home from './Home.vue'
 import About from './About.vue'
-import Form from './Form.vue'
-import NotFound from './NotFound.vue'
+// import Form from './Form.vue'
+// import NotFound from './NotFound.vue'
 
 const routes = {
   '/': Home,
-  '/about': About,
-  '/form': Form
+  '/about': About
+  // '/form': Form
 }
 
 const currentPath = ref(window.location.hash)
@@ -20,13 +20,9 @@ window.addEventListener('hashchange', () => {
 const currentView = computed(() => {
   return routes[currentPath.value.slice(1) || '/'] || NotFound
 })
-</script>
+</script> -->
 
 <template>
-  <a href="#/">Home</a> |
-  <a href="#/about">About</a> |
-  <a href="#/non-existent-path">Broken Link</a>
-  <component :is="currentView" />
   <section class="text-gray-600 body-font relative">
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-12">
@@ -124,3 +120,12 @@ const currentView = computed(() => {
   </div>
 </section>
 </template>
+<style scoped>
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'tailblocks/css/components/forms.css';
+
+/* ここにカスタムスタイルを追加する */
+</style>
