@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { ref, computed } from 'vue'
 import Home from './Home.vue'
 import About from './About.vue'
@@ -20,7 +20,7 @@ window.addEventListener('hashchange', () => {
 const currentView = computed(() => {
   return routes[currentPath.value.slice(1) || '/'] || NotFound
 })
-</script> -->
+</script>
 
 <template>
   <section class="text-gray-600 body-font relative">
@@ -120,12 +120,3 @@ const currentView = computed(() => {
   </div>
 </section>
 </template>
-<style scoped>
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
-@import 'tailblocks/css/components/forms.css';
-
-/* ここにカスタムスタイルを追加する */
-</style>
