@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.21.0",
+    "tailblocks-vue": "^0.0.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
