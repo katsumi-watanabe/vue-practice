@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
-import Home from './Home.vue'
-import About from './About.vue'
-import Form from './Form.vue'
-import NotFound from './NotFound.vue'
+import Home from './views/Home.vue'
+import About from './views/About.vue'
+import Form from './views/Form.vue'
+import NotFound from './views/NotFound.vue'
 
 const routes = {
   '/': Home,
