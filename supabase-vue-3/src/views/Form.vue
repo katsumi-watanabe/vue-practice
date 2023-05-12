@@ -92,7 +92,7 @@ export default {
   methods: {
     async saveData() {
       const { data, error } = await supabase
-        .from('supabase_practice')
+        .from('supabase_practices')
         .insert({
           name: this.name,
           email: this.email,
