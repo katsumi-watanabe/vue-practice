@@ -101,7 +101,10 @@ export default {
       if (error) {
         console.log(error)
       } else {
-        console.log('保存されました', data)
+        alert('保存されました。')
+        this.name = '' // 名前をクリアする
+        this.email = '' // メールアドレスをクリアする
+        this.message = '' // メッセージをクリアする
       }
     }
   }
