@@ -4,10 +4,12 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Form from './views/Form.vue'
 import NotFound from './views/NotFound.vue'
+import Index from './views/Index.vue'
 
 const routes = {
   '/': Home,
   '/about': About,
+  '/index': Index,
   '/form': Form
 }
 
@@ -24,6 +26,7 @@ const currentView = computed(() => {
 
 <template>
   <a href="#/">Home</a> |
+  <a href="#/index">Lists</a> |
   <a href="#/about">About</a> |
   <a href="#/form">Form</a> |
   <a href="#/non-existent-path">Broken Link</a>
