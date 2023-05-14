@@ -86,11 +86,6 @@ const currentView = computed(() => {
   </div>
 </section>
 </template>
-<style>
-.error {
-  color: red;
-}
-</style>
 
 <script>
 export default {
