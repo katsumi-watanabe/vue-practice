@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { supabase } from '../supabase';
+// import { useVuelidate } from '@vuelidate/core';
+// import { required, maxLength } from '@vuelidate/validators';
 
 const currentPath = ref(window.location.hash)
 
@@ -25,13 +27,17 @@ const currentView = computed(() => {
         <div class="p-2 w-full">
           <div class="relative">
             <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+            <!-- <input v-model="name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
             <input v-model="name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            <span v-if="nameError" class="error">{{ nameError }}</span>
+            <!-- <span v-show="errors.has('name')" class="error">{{ errors.first('name') }}</span> -->
           </div>
         </div>
         <div class="p-2 w-full">
           <div class="relative">
             <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
             <input v-model="email" type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            <div v-if="emailError" class="error">{{ emailError }}</div>
           </div>
         </div>
         <div class="p-2 w-full">
@@ -106,6 +112,30 @@ export default {
         this.email = '' // メールアドレスをクリアする
         this.message = '' // メッセージをクリアする
       }
+    },
+    validEmail(email) {
+      const re = /\S+@\S+\.\S+/
+      if (!email) {
+        return 'メールアドレスは必須です。';
+      } else if (!re.test(email)) {
+        return 'メールアドレスの形式が正しくありません。';
+      } else {
+        return '';
+      }
+    }
+  },
+  computed: {
+    nameError() {
+      if (!this.name) {
+        return '名前は必須です。';
+      } else if (this.name.length > 10) {
+        return '名前は10文字以内で入力してください。';
+      } else {
+        return '';
+      }
+    },
+    emailError() {
+      return this.validEmail(this.email);
     }
   }
 }
