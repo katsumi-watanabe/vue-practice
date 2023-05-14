@@ -44,11 +44,12 @@ const currentView = computed(() => {
           <div class="relative">
             <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
             <textarea v-model="message" id="message" name="message" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+            <div v-if="messageError" class="error">{{ messageError }}</div>
           </div>
         </div>
         <div class="p-2 w-full">
-          <a href="#/index">
-            <button @click="saveData" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+          <a v-bind:href="nameError || emailError ? null : '#/index'">
+            <button @click="saveData" :disabled="hasErrors" :class="{ 'bg-gray-400': hasErrors }" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
           </a>
         </div>
         <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
@@ -136,6 +137,18 @@ export default {
     },
     emailError() {
       return this.validEmail(this.email);
+    },
+    messageError() {
+      if (!this.message) {
+        return 'メッセージは必須です。';
+      } else if (this.message.length > 100) {
+        return 'メッセージは100文字以内で入力してください。';
+      } else {
+        return '';
+      }
+    },
+    hasErrors() {
+      return Boolean(this.nameError || this.emailError || this.messageError);
     }
   }
 }
