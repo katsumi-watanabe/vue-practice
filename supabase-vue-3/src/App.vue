@@ -1,34 +1,44 @@
-<script setup>
-import { ref, computed } from 'vue'
+<script>
+import { ref } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Form from './views/Form.vue'
 import NotFound from './views/NotFound.vue'
 import Index from './views/Index.vue'
 
-const routes = {
-  '/': Home,
-  '/about': About,
-  '/index': Index,
-  '/form': Form
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About },
+  { path: '/index', component: Index },
+  { path: '/form', component: Form },
+  { path: '/:path(.*)', component: NotFound }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+export default {
+  setup() {
+    router.replace(window.location.hash.slice(1))
+    window.addEventListener('hashchange', () => {
+      router.replace(window.location.hash.slice(1))
+    })
+    return {
+      currentView: ref('')
+    }
+  },
+  router
 }
-
-const currentPath = ref(window.location.hash)
-
-window.addEventListener('hashchange', () => {
-  currentPath.value = window.location.hash
-})
-
-const currentView = computed(() => {
-  return routes[currentPath.value.slice(1) || '/'] || NotFound
-})
 </script>
 
 <template>
-  <a href="#/">Home</a> |
-  <a href="#/index">Lists</a> |
-  <a href="#/about">About</a> |
-  <a href="#/form">Form</a> |
-  <a href="#/non-existent-path">Broken Link</a>
-  <component :is="currentView" />
+  <router-link to="/">Home</router-link> |
+  <router-link to="/index">Lists</router-link> |
+  <router-link to="/about">About</router-link> |
+  <router-link to="/form">Form</router-link> |
+  <router-link to="/non-existent-path">Broken Link</router-link>
+  <router-view />
 </template>

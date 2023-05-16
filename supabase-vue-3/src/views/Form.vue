@@ -1,8 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { supabase } from '../supabase';
-// import { useVuelidate } from '@vuelidate/core';
-// import { required, maxLength } from '@vuelidate/validators';
 
 const currentPath = ref(window.location.hash)
 
@@ -27,10 +25,8 @@ const currentView = computed(() => {
         <div class="p-2 w-full">
           <div class="relative">
             <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
-            <!-- <input v-model="name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> -->
             <input v-model="name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
             <span v-if="nameError" class="error">{{ nameError }}</span>
-            <!-- <span v-show="errors.has('name')" class="error">{{ errors.first('name') }}</span> -->
           </div>
         </div>
         <div class="p-2 w-full">
@@ -48,9 +44,10 @@ const currentView = computed(() => {
           </div>
         </div>
         <div class="p-2 w-full">
-          <a v-bind:href="nameError || emailError ? null : '#/index'">
-            <button @click="saveData" :disabled="hasErrors" :class="{ 'bg-gray-400': hasErrors }" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
-          </a>
+          <router-link :to="nameError || emailError ? null : '/index'">
+            <button @click="saveData" :disabled="hasErrors" :class="[hasErrors ? 'bg-gray-400' : 'bg-indigo-500']" class="flex mx-auto text-white border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
+
+          </router-link>
         </div>
         <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
           <a class="text-indigo-500">example@email.com</a>
@@ -98,6 +95,22 @@ export default {
   },
   methods: {
     async saveData() {
+      const { data: existingData, error: existingError } = await supabase
+        .from('supabase_practices')
+        .select('email')
+        .eq('email', this.email)
+
+      if (existingError) {
+        console.log(existingError)
+        return;
+      }
+
+      if (existingData.length > 0) {
+        alert('そのメールアドレスは既に存在します。別のメールアドレスを入力してください。');
+        this.$router.push('#/form');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('supabase_practices')
         .insert({
@@ -105,13 +118,14 @@ export default {
           email: this.email,
           message: this.message,
         })
+
       if (error) {
         console.log(error)
       } else {
         alert('保存されました。')
-        this.name = '' // 名前をクリアする
-        this.email = '' // メールアドレスをクリアする
-        this.message = '' // メッセージをクリアする
+        this.name = ''
+        this.email = ''
+        this.message = ''
       }
     },
     validEmail(email) {
@@ -136,7 +150,12 @@ export default {
       }
     },
     emailError() {
-      return this.validEmail(this.email);
+      const email = this.validEmail(this.email);
+      if (email) {
+        return email;
+      } else {
+        return '';
+      }
     },
     messageError() {
       if (!this.message) {

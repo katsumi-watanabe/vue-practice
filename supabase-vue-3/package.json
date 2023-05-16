@@ -13,7 +13,8 @@
     "@vee-validate/rules": "^4.9.3",
     "tailblocks-vue": "^0.0.1",
     "vee-validate": "^4.5.8",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@jridgewell/sourcemap-codec": "^1.4.15",
