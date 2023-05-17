@@ -44,9 +44,7 @@ const currentView = computed(() => {
           </div>
         </div>
         <div class="p-2 w-full">
-          <router-link :to="nameError || emailError ? '/form' : '/index'">
             <button @click="saveData" :disabled="hasErrors" :class="[hasErrors ? 'bg-gray-400' : 'bg-indigo-500']" class="flex mx-auto text-white border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
-          </router-link>
         </div>
         <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
           <a class="text-indigo-500">example@email.com</a>
@@ -94,6 +92,12 @@ export default {
   },
   methods: {
     async saveData() {
+      // バリデーションを追加
+      if (this.hasErrors) {
+        // エラーがある場合は処理を中断
+        return;
+      }
+
       const { data: existingData, error: existingError } = await supabase
         .from('supabase_practices')
         .select('email')
@@ -106,8 +110,7 @@ export default {
 
       if (existingData.length > 0) {
         alert('そのメールアドレスは既に存在します。別のメールアドレスを入力してください。');
-        this.$router.push('/form');
-        return;
+        return; // ページ遷移せずに処理を終了
       }
 
       const { data, error } = await supabase
@@ -125,6 +128,7 @@ export default {
         this.name = ''
         this.email = ''
         this.message = ''
+        this.$router.push('/index'); // /formにページ遷移
       }
     },
     validEmail(email) {
@@ -142,8 +146,8 @@ export default {
     nameError() {
       if (!this.name) {
         return '名前は必須です。';
-      } else if (this.name.length > 10) {
-        return '名前は10文字以内で入力してください。';
+      } else if (this.name.length > 20) { // 文字数制限を20文字に修正
+        return '名前は20文字以内で入力してください。';
       } else {
         return '';
       }
@@ -159,8 +163,8 @@ export default {
     messageError() {
       if (!this.message) {
         return 'メッセージは必須です。';
-      } else if (this.message.length > 100) {
-        return 'メッセージは100文字以内で入力してください。';
+      } else if (this.message.length > 200) { // 文字数制限を200文字に修正
+        return 'メッセージは200文字以内で入力してください。';
       } else {
         return '';
       }
