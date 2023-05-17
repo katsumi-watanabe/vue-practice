@@ -44,9 +44,8 @@ const currentView = computed(() => {
           </div>
         </div>
         <div class="p-2 w-full">
-          <router-link :to="nameError || emailError ? null : '/index'">
+          <router-link :to="nameError || emailError ? '/form' : '/index'">
             <button @click="saveData" :disabled="hasErrors" :class="[hasErrors ? 'bg-gray-400' : 'bg-indigo-500']" class="flex mx-auto text-white border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
-
           </router-link>
         </div>
         <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
@@ -107,7 +106,7 @@ export default {
 
       if (existingData.length > 0) {
         alert('そのメールアドレスは既に存在します。別のメールアドレスを入力してください。');
-        this.$router.push('#/form');
+        this.$router.push('/form');
         return;
       }
 
