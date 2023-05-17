@@ -20,7 +20,7 @@ const router = createRouter({
   routes
 })
 
-export default {
+export default (await import('vue')).createApp({
   setup() {
     router.replace(window.location.hash.slice(1))
     window.addEventListener('hashchange', () => {
@@ -31,7 +31,7 @@ export default {
     }
   },
   router
-}
+})
 </script>
 
 <template>
