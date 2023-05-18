@@ -14,6 +14,16 @@ const routes = [
     component: About
   },
   {
+    path: '/index',
+    name: 'Index',
+    component: Index
+  },
+  {
+    path: '/form',
+    name: 'Form',
+    component: Form
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound
