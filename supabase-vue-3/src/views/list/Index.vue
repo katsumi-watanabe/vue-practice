@@ -32,6 +32,7 @@ onMounted(async () => {
             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">name</th>
             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">email</th>
             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">message</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">edit</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +41,13 @@ onMounted(async () => {
           <td class="border-t-2 border-gray-200 px-4 py-3">{{ practice.name }}</td>
           <td class="border-t-2 border-gray-200 px-4 py-3">{{ practice.email }}</td>
           <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">{{ practice.message }}</td>
+          <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">
+            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <router-link :to="'/edit/' + practice.id">
+                Edit
+              </router-link>
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
