@@ -1,37 +1,38 @@
 <script>
-import { ref } from 'vue'
+import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from './views/Home.vue'
-import About from './views/About.vue'
-import Form from './views/Form.vue'
-import NotFound from './views/NotFound.vue'
-import Index from './views/Index.vue'
+import { defineRule, configure } from 'vee-validate'
+import { Field, Form as VeeForm, ErrorMessage } from 'vee-validate'
+import rules from '@vee-validate/rules'
+import router from './router/router.js'
 
-const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
-  { path: '/index', component: Index },
-  { path: '/form', component: Form },
-  { path: '/:path(.*)', component: NotFound }
-]
+// Appコンポーネントをインポートする前にVueアプリケーションを作成
+const app = createApp({})
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes
+// ルールの定義
+Object.keys(rules).forEach((rule) => {
+  defineRule(rule, rules[rule])
 })
 
-export default (await import('vue')).createApp({
-  setup() {
-    router.replace(window.location.hash.slice(1))
-    window.addEventListener('hashchange', () => {
-      router.replace(window.location.hash.slice(1))
-    })
-    return {
-      currentView: ref('')
-    }
-  },
-  router
+// コンポーネントの登録
+app.component('Form', VeeForm)
+app.component('Field', Field)
+app.component('ErrorMessage', ErrorMessage)
+
+// vee-validateの設定
+configure({
+  validateOnInput: true,
 })
+
+// アプリケーションにルーターを使用
+app.use(router)
+
+// Appコンポーネントをインポート
+import App from './App.vue'
+
+// アプリケーションのマウント
+app.mount('#app')
+
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { supabase } from '../supabase';
+import { supabase } from '@/supabase';
 
 const currentPath = ref(window.location.hash)
 
