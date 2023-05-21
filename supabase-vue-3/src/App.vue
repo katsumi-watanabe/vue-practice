@@ -37,7 +37,7 @@ app.mount('#app')
 
 <template>
   <router-link to="/">Home</router-link> |
-  <router-link to="/index">Lists</router-link> |
+  <router-link to="/list">Lists</router-link> |
   <router-link to="/about">About</router-link> |
   <router-link to="/form">Form</router-link> |
   <router-link to="/non-existent-path">Broken Link</router-link>
