@@ -83,6 +83,7 @@ const currentView = computed(() => {
 
 <script>
 export default {
+  name: 'InputForm',
   data() {
     return {
       name: '',
