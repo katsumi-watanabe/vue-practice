@@ -15,9 +15,4 @@ const routes = [
   { path: '/:pathMatch(.*)*', component: NotFound }
 ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
-
 export default routes
