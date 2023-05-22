@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/supabase'
-import router from '@/router/router.js'
+import router from '@/router'
 
 const practices = ref([]);
 

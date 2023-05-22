@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { defineRule, configure } from 'vee-validate'
 import { Field, Form as VeeForm, ErrorMessage } from 'vee-validate'
 import rules from '@vee-validate/rules'
-import router from '@/router/router.js'
+import router from '@/router'
 
 // Appコンポーネントをインポートする前にVueアプリケーションを作成
 const app = createApp({})
