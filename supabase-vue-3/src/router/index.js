@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import About from '@/views/about/About.vue'
 import InputForm from '@/views/form/InputForm.vue'
+import Edit from '@/views/form/EditForm.vue'
 import List from '@/views/list/Index.vue'
-import Edit from '@/views/list/Edit.vue'
 import NotFound from '@/views/NotFound.vue'
 
 const routes = [
