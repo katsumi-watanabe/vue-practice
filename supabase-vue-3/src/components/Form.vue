@@ -129,7 +129,7 @@ export default {
         this.name = ''
         this.email = ''
         this.message = ''
-        this.$router.push('/index'); // /formにページ遷移
+        this.$router.push('/list'); // /formにページ遷移
       }
     },
     validEmail(email) {
