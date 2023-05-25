@@ -1,5 +1,9 @@
 <template>
-  <Form :initialData="initialData" @updateData="updateData" />
+  <Form
+    :initialData="initialData"
+    v-model="formData"
+    @submit="updateData"
+  />
 </template>
 
 <script>
@@ -8,6 +12,9 @@ import { supabase } from '@/supabase';
 
 export default {
   name: 'EditForm',
+  components: {
+      Form
+  },
   data() {
     return {
       initialData: null,
@@ -17,11 +24,11 @@ export default {
     };
   },
   created() {
-    const exampleId = 'exampleId';
+    const exampleId = 38;
 
     // データの取得
     supabase
-      .from('your_table_name')
+      .from('supabase_practices')
       .select()
       .eq('id', exampleId)
       .single()
@@ -41,7 +48,7 @@ export default {
   },
   methods: {
     updateData() {
-      const exampleId = 'exampleId';
+      const exampleId = 38;
 
       const updatedData = {
         name: this.name,
@@ -51,7 +58,7 @@ export default {
 
       // データの更新
       supabase
-        .from('your_table_name')
+        .from('supabase_practices')
         .update(updatedData)
         .eq('id', exampleId)
         .then(({ data, error }) => {
