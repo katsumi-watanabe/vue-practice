@@ -1,9 +1,17 @@
 <template>
-  <Form
-    :initialData="initialData"
-    v-model="formData"
-    @submit="updateData"
-  />
+  <div>
+    <h1>編集フォーム</h1>
+    <div v-if="initialData">
+      <Form
+        :initialData="initialData"
+        v-model="formData"
+        @submit="updateData"
+      />
+    </div>
+    <div v-else>
+      <p>データを取得中...</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,54 +21,57 @@ import { supabase } from '@/supabase';
 export default {
   name: 'EditForm',
   components: {
-      Form
+    Form
   },
   data() {
     return {
       initialData: null,
-      name: '',
-      email: '',
-      message: ''
+      formData: {
+        id: '',
+        name: '',
+        email: '',
+        message: ''
+      }
     };
   },
-  created() {
-    const exampleId = 38;
-
-    // データの取得
-    supabase
-      .from('supabase_practices')
-      .select()
-      .eq('id', exampleId)
-      .single()
-      .then(({ data, error }) => {
-        if (error) {
-          console.log(error);
-        } else {
-          this.initialData = data;
-          this.name = data.name;
-          this.email = data.email;
-          this.message = data.message;
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  mounted() {
+    // データの取得と代入
+    this.fetchData();
   },
   methods: {
+    async fetchData() {
+      const { data, error } = await supabase
+        .from('supabase_practices')
+        .select('*')
+        .eq('id', this.$route.params.id)
+        .single();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      // 取得したデータをコンポーネントのデータに代入
+      this.initialData = data; // 修正: initialDataにデータを代入する
+      this.formData.id = data.id;
+      this.formData.name = data.name;
+      this.formData.email = data.email;
+      this.formData.message = data.message;
+    },
     updateData() {
-      const exampleId = 38;
+      const { id, name, email, message } = this.formData;
 
       const updatedData = {
-        name: this.name,
-        email: this.email,
-        message: this.message
+        name,
+        email,
+        message
       };
 
       // データの更新
       supabase
         .from('supabase_practices')
         .update(updatedData)
-        .eq('id', exampleId)
+        .eq('id', id)
         .then(({ data, error }) => {
           if (error) {
             console.log(error);
@@ -73,5 +84,5 @@ export default {
         });
     }
   }
-};
+}
 </script>

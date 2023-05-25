@@ -25,7 +25,7 @@ configure({
 })
 
 // アプリケーションにルーターを使用
-app.use(router)
+// app.use(router)
 
 // Appコンポーネントをインポート
 import App from './App.vue'

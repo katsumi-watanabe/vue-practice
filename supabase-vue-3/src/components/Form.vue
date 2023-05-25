@@ -79,7 +79,6 @@ window.addEventListener('hashchange', () => {
 
 <script>
 export default {
-  name: 'InputForm',
   data() {
     return {
       name: '',
