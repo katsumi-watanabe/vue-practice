@@ -21,21 +21,21 @@ window.addEventListener('hashchange', () => {
         <div class="p-2 w-full">
           <div class="relative">
             <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
-            <input v-model="name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            <input v-model="formData.name" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
             <span v-if="nameError" class="error">{{ nameError }}</span>
           </div>
         </div>
         <div class="p-2 w-full">
           <div class="relative">
             <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-            <input v-model="email" type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            <input v-model="formData.email" type="email" id="email" name="email" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
             <div v-if="emailError" class="error">{{ emailError }}</div>
           </div>
         </div>
         <div class="p-2 w-full">
           <div class="relative">
             <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-            <textarea v-model="message" id="message" name="message" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+            <textarea v-model="formData.message" id="message" name="message" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
             <div v-if="messageError" class="error">{{ messageError }}</div>
           </div>
         </div>
@@ -79,12 +79,22 @@ window.addEventListener('hashchange', () => {
 
 <script>
 export default {
+  name: 'Form',
+  props: {
+    initialData: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      name: '',
-      email: '',
-      message: '',
-    }
+      formData: {
+        id: '',
+        name: '',
+        email: '',
+        message: ''
+      }
+    };
   },
   methods: {
     async saveData() {
@@ -112,18 +122,18 @@ export default {
       const { data, error } = await supabase
         .from('supabase_practices')
         .insert({
-          name: this.name,
-          email: this.email,
-          message: this.message,
+          name: this.formData.name,
+          email: this.formData.email,
+          message: this.formData.message,
         })
 
       if (error) {
         console.log(error)
       } else {
         alert('保存されました。')
-        this.name = ''
-        this.email = ''
-        this.message = ''
+        this.formData.name = ''
+        this.formData.email = ''
+        this.formData.message = ''
         this.$router.push('/list'); // /formにページ遷移
       }
     },
@@ -140,16 +150,16 @@ export default {
   },
   computed: {
     nameError() {
-      if (!this.name) {
+      if (!this.formData.name) {
         return '名前は必須です。';
-      } else if (this.name.length > 20) { // 文字数制限を20文字に修正
+      } else if (this.formData.name.length > 20) { // 文字数制限を20文字に修正
         return '名前は20文字以内で入力してください。';
       } else {
         return '';
       }
     },
     emailError() {
-      const email = this.validEmail(this.email);
+      const email = this.validEmail(this.formData.email);
       if (email) {
         return email;
       } else {
@@ -157,9 +167,9 @@ export default {
       }
     },
     messageError() {
-      if (!this.message) {
+      if (!this.formData.message) {
         return 'メッセージは必須です。';
-      } else if (this.message.length > 200) { // 文字数制限を200文字に修正
+      } else if (this.formData.message.length > 200) { // 文字数制限を200文字に修正
         return 'メッセージは200文字以内で入力してください。';
       } else {
         return '';

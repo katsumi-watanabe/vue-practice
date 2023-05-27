@@ -4,7 +4,6 @@
     <div v-if="initialData">
       <Form
         :initialData="initialData"
-        v-model="formData"
         @submit="updateData"
       />
     </div>
@@ -25,13 +24,7 @@ export default {
   },
   data() {
     return {
-      initialData: null,
-      formData: {
-        id: '',
-        name: '',
-        email: '',
-        message: ''
-      }
+      initialData: null
     };
   },
   mounted() {
@@ -52,14 +45,10 @@ export default {
       }
 
       // 取得したデータをコンポーネントのデータに代入
-      this.initialData = data; // 修正: initialDataにデータを代入する
-      this.formData.id = data.id;
-      this.formData.name = data.name;
-      this.formData.email = data.email;
-      this.formData.message = data.message;
+      this.initialData = data;
     },
-    updateData() {
-      const { id, name, email, message } = this.formData;
+    updateData(formData) {
+      const { id, name, email, message } = formData;
 
       const updatedData = {
         name,
